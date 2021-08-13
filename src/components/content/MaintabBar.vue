@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="maintabBar">
     <tab-bar>
       <tab-bar-item path="/home" activeColor="dodgerblue">
         <img slot="item-icon" src="@/assets/img/tabbar/home.png" alt="">
@@ -40,5 +40,7 @@ import TabBarItem from '../common/tabbar/TabBarItem'
 </script>
 
 <style>
-
+.maintabBar{
+  z-index: 10;
+}
 </style>

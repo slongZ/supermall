@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-carousel">
     <carousel :lengt="banners.length">
       <carousel-item>
         <a :href="banners[0].link"><img :src="banners[0].image" /></a>
