@@ -50,6 +50,11 @@ export default {
       this.$emit('pullingUp')
     })
   },
+  methods:{
+    refresh(){
+      this.scroll.refresh()
+    }
+  }
 };
 </script>
 

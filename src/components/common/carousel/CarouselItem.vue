@@ -12,15 +12,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .carousel-item li{
   float: left;
   width: 100vw;
-  height: 50vw;
 }
 .carousel-item li img{
   width: 100vw;
-  height: 50vw;
 }
 </style>

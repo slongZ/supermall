@@ -1,18 +1,10 @@
 <template>
   <div class="main-carousel">
-    <carousel :lengt="banners.length">
-      <carousel-item>
-        <a :href="banners[0].link"><img :src="banners[0].image" /></a>
+    <carousel :leng="banners.length" class="carousel">
+      <carousel-item v-for="(item, index) in banners" :key="index">
+        <a :href="item.link"><img :src="item.image"  @load="imageLoad" /></a>
       </carousel-item>
-      <carousel-item>
-        <a :href="banners[1].link"><img :src="banners[1].image" /></a>
-      </carousel-item>
-      <carousel-item>
-        <a :href="banners[2].link"><img :src="banners[2].image" /></a>
-      </carousel-item>
-      <carousel-item>
-        <a :href="banners[3].link"><img :src="banners[3].image" /></a>
-      </carousel-item>
+
     </carousel>
   </div>
 </template>
@@ -33,15 +25,19 @@ export default {
   data() {
     return {
       banners: this.bannerst,
+      isLoad: false,
     };
   },
   methods: {
-    test() {
-      console.log(this.banners[0].image);
+    imageLoad() {
+      if (!this.isLoad) {
+        this.$emit("carouselImageLoad");
+        this.isLoad = true;
+      }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="goods-list-item">
+  <div class="goods-list-item" @click="itemClick">
     <img :src="goodsItem.show.img" alt="" @load="imageLoad" />
     <div class="goods-list-item-text">
       <p>{{ goodsItem.title }}</p>
       <span class="price">{{ goodsItem.price }}</span>
-      <span class="collect">  ✩{{ goodsItem.cfav }}</span>
+      <span class="collect"> ✩{{ goodsItem.cfav }}</span>
     </div>
   </div>
 </template>
@@ -20,25 +20,27 @@ export default {
       },
     },
   },
-  methods:{
-    imageLoad(){
-      this.$bus.$emit('itemImageLoad',{});
-    }
-  }
+  methods: {
+    imageLoad() {
+      this.$bus.$emit("itemImageLoad", {});
+    },
+    itemClick() {
+      this.$router.push("/detail/" + this.goodsItem.iid);
+    },
+  },
 };
 </script>
 
 <style>
-
 .goods-list-item {
   padding-top: 4px;
   padding-left: 4vw;
   width: 44vw;
 }
-.goods-list-item img{
-  width:44vw;
+.goods-list-item img {
+  width: 44vw;
   height: 66vw;
-  border-radius:5px;
+  border-radius: 5px;
 }
 .goods-list-item p {
   margin: 0px;
