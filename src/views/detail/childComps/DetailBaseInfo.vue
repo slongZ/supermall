@@ -36,6 +36,7 @@ export default {
 
 <style scoped>
 .base-info{
+  position: relative;
   margin-top: 15px;
   padding: 0 8px;
   color: #999;

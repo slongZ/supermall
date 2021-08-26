@@ -41,7 +41,6 @@ import TabBarItem from '../common/tabbar/TabBarItem'
 
 <style scoped>
 .maintabBar{
-  position: relative;
   z-index: 9;
 }
 </style>

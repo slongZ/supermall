@@ -2,7 +2,7 @@
   <div class="detail-swiper-">
     <carousel :leng="topImages.length">
       <carousel-item v-for="(item, index) in topImages" :key="index" >
-        <img :src="item" alt="" class="carousel-item-img">
+        <img :src="item" alt="" class="carousel-item-img" @load="imageLoad">
       </carousel-item>
     </carousel>
   </div>
@@ -22,10 +22,23 @@ export default {
       },
     },
   },
+  data(){
+    return {
+      isLoad: false
+    }
+  },
   components: {
     Carousel,
     CarouselItem,
   },
+  methods:{
+    imageLoad(){
+            if (!this.isLoad) {
+        this.$emit("detailSwiperImageLoad");
+        this.isLoad = true;
+      }
+    }
+  }
 };
 </script>
 

@@ -51,10 +51,9 @@ import FeatureView from "./childComps/FeatureView.vue";
 import TabControl from "../../components/content/TabControl.vue";
 import GoodsList from "../../components/content/goods/GoodsList.vue";
 import Scroll from "../../components/common/scroll/Scroll.vue";
-import BackTop from "../../components/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "@/network/home";
-import { debounce } from "@/common/utils.js";
+import {itemListenerMixin, backTopMixin} from "@/common/mixin.js";
 
 export default {
   name: "Home",
@@ -66,8 +65,8 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
   },
+  mixins: [itemListenerMixin,backTopMixin],
   data() {
     return {
       banners: [],
@@ -80,9 +79,8 @@ export default {
       },
       goodsFlag: false,
       currentType: "pop",
-      isShowBackTop: false,
-      tabOffsetTop: 0,
       isTabControlshow: false,
+      tabOffsetTop: 0,
       saveY: 0
     };
   },
@@ -97,23 +95,22 @@ export default {
   },
   // 每张图片检查
   mounted() {
-    const refresh = debounce(this.$refs.scroll.refresh, 200);
-
-    this.$bus.$on("itemImageLoad", () => {
-      refresh();
-    });
 
     // 赋值
     // this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
     // console.log(this.$refs.tabControl.$el.offsetTop)
   },
   activated(){
-    this.$refs.scroll.scroll.scrollTo(0,this.saveY, 0);
+    this.$refs.scroll.scroll.scrollTo(0,this.saveY, 1);
     // 刷新
     this.$refs.scroll.scroll.refresh()
   },
   deactivated(){
-    this.saveY = this.$refs.scroll.scroll.y
+    // 保存y值
+    this.saveY = this.$refs.scroll.scroll.y;
+
+    // 取消监听
+    this.$bus.$off('itemImgLoad', this.itemImgListener)
   },
   methods: {
     // 事件监听
@@ -134,18 +131,12 @@ export default {
     
     },
 
-    // 回顶部
-    backClick() {
-      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
-    },
-
     contentScroll(position) {
       // 回顶按钮BackTop显示
       this.isShowBackTop = -position.y > 1000;
 
       // 决定tabControl是否吸顶
-      this.isTabControlshow = -position.y > this.tabOffsetTop;
-    },
+      this.isTabControlshow = -position.y > this.tabOffsetTop;    },
 
     // 上拉加载
     loadMore() {

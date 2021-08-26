@@ -61,6 +61,7 @@ export default {
 
 <style scoped>
 .shop-info {
+  position: relative;
   padding: 25px 8px;
   border-bottom: 5px solid #f2f5f8;
 }
