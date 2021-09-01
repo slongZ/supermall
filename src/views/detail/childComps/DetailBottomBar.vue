@@ -26,7 +26,7 @@ export default {
   name: 'DetailBottomBar',
   methods:{
     addToCart(){
-      console.log("添加")
+      this.$emit('addCart')
     }
   }
 }
@@ -53,9 +53,9 @@ export default {
 }
 .bar-left .icon{
   display: block;
-  width: 20px;
-  height:20px;
-  margin: 9px auto 3px;
+  width: 21px;
+  height:21px;
+  margin: 7px auto 3px;
   }
 .service{
   background: url("~@/assets/img/detail/icon01.png") 0 0/100%;
