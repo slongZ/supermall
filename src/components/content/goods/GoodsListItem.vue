@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-list-item" @click="itemClick">
+  <div class="goods-list-item" :class="{ item: isUse }" @click="itemClick">
     <img :src="showImage" alt="" @load="imageLoad" />
     <div class="goods-list-item-text">
       <p>{{ goodsItem.title }}</p>
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 export default {
   name: "GoodsListItem",
   props: {
@@ -20,19 +21,30 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      isUse: false,
+    };
+  },
   methods: {
     imageLoad() {
       this.$bus.$emit("itemImageLoad", {});
+        if(!this.goodsItem.show){
+          if(!this.isUse){this.isUse = true;}
+        }
     },
     itemClick() {
       this.$router.push("/detail/" + this.goodsItem.iid);
     },
   },
-  computed:{
-    showImage(){
-      return this.goodsItem.image || this.goodsItem.show.img
-    }
-  }
+  computed: {
+    showImage() {
+      if (!this.goodsItem.show) {
+        return this.goodsItem.img;
+      }
+      return this.goodsItem.image || this.goodsItem.show.img;
+    },
+  },
 };
 </script>
 
@@ -69,5 +81,13 @@ export default {
   float: right;
   color: grey;
   font-size: 11px;
+}
+
+.item {
+  width: 34vw;
+}
+.item img {
+  width: 34vw;
+  height: 51vw;
 }
 </style>

@@ -16,7 +16,10 @@ export default {
 .feature{
   width: 100vw;
 }
-
+a{
+  text-decoration: none;
+  color: black;
+}
 .feature img{
   width: 100vw;
 }

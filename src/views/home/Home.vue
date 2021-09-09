@@ -181,6 +181,7 @@ export default {
 <style scoped>
 #home {
   height: 100vh;
+  width: 100vw;
   position: relative;
 }
 .home-nav {

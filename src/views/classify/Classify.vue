@@ -1,154 +1,142 @@
 <template>
-  <div class="wrapper" ref="wrapper1">
-    <ul class="content">
-      <li>分类列表1</li>
-      <li>分类列表2</li>
-      <li>分类列表3</li>
-      <li>分类列表4</li>
-      <li>分类列表5</li>
-      <li>分类列表6</li>
-      <li>分类列表7</li>
-      <li>分类列表8</li>
-      <li>分类列表9</li>
-      <li>分类列表10</li>
-      <li>分类列表11</li>
-      <li>分类列表12</li>
-      <li>分类列表13</li>
-      <li>分类列表14</li>
-      <li>分类列表15</li>
-      <li>分类列表16</li>
-      <li>分类列表17</li>
-      <li>分类列表18</li>
-      <li>分类列表19</li>
-      <li>分类列表20</li>
-      <li>分类列表21</li>
-      <li>分类列表22</li>
-      <li>分类列表23</li>
-      <li>分类列表24</li>
-      <li>分类列表25</li>
-      <li>分类列表26</li>
-      <li>分类列表27</li>
-      <li>分类列表28</li>
-      <li>分类列表29</li>
-      <li>分类列表30</li>
-      <li>分类列表31</li>
-      <li>分类列表32</li>
-      <li>分类列表33</li>
-      <li>分类列表34</li>
-      <li>分类列表35</li>
-      <li>分类列表36</li>
-      <li>分类列表37</li>
-      <li>分类列表38</li>
-      <li>分类列表39</li>
-      <li>分类列表40</li>
-      <li>分类列表41</li>
-      <li>分类列表42</li>
-      <li>分类列表43</li>
-      <li>分类列表44</li>
-      <li>分类列表45</li>
-      <li>分类列表46</li>
-      <li>分类列表47</li>
-      <li>分类列表48</li>
-      <li>分类列表49</li>
-      <li>分类列表50</li>
-      <li>分类列表51</li>
-      <li>分类列表52</li>
-      <li>分类列表53</li>
-      <li>分类列表54</li>
-      <li>分类列表55</li>
-      <li>分类列表56</li>
-      <li>分类列表57</li>
-      <li>分类列表58</li>
-      <li>分类列表59</li>
-      <li>分类列表60</li>
-      <li>分类列表61</li>
-      <li>分类列表62</li>
-      <li>分类列表63</li>
-      <li>分类列表64</li>
-      <li>分类列表65</li>
-      <li>分类列表66</li>
-      <li>分类列表67</li>
-      <li>分类列表68</li>
-      <li>分类列表69</li>
-      <li>分类列表70</li>
-      <li>分类列表71</li>
-      <li>分类列表72</li>
-      <li>分类列表73</li>
-      <li>分类列表74</li>
-      <li>分类列表75</li>
-      <li>分类列表76</li>
-      <li>分类列表77</li>
-      <li>分类列表78</li>
-      <li>分类列表79</li>
-      <li>分类列表80</li>
-      <li>分类列表81</li>
-      <li>分类列表82</li>
-      <li>分类列表83</li>
-      <li>分类列表84</li>
-      <li>分类列表85</li>
-      <li>分类列表86</li>
-      <li>分类列表87</li>
-      <li>分类列表88</li>
-      <li>分类列表89</li>
-      <li>分类列表90</li>
-      <li>分类列表91</li>
-      <li>分类列表92</li>
-      <li>分类列表93</li>
-      <li>分类列表94</li>
-      <li>分类列表95</li>
-      <li>分类列表96</li>
-      <li>分类列表97</li>
-      <li>分类列表98</li>
-      <li>分类列表99</li>
-      <li>分类列表100</li>
-    </ul>
+  <div id="category">
+    <nav-bar class="nav-bar">
+      <div slot="center">分类</div>
+    </nav-bar>
+
+    <scroll class="left-content" ref="scrollLeft">
+      <left-bar :cateInfo="cateInfo"></left-bar>
+    </scroll>
+
+    <scroll class="right-content" ref="scroll">
+      <right-top :subInfo="subInfo"></right-top>
+      <tab-control :titles="['综合', '新品', '销量']" @tabClick="tabClick">
+      </tab-control>
+      <goods-list :goods="showGoods"></goods-list>
+    </scroll>
   </div>
 </template>
 
 <script>
-import BScroll from "@better-scroll/core";
-import Pullup from "@better-scroll/pull-up";
+import NavBar from "../../components/common/navbar/NavBar.vue";
+import LeftBar from "@/views/classify/childComps/LeftBar.vue";
+import Scroll from "../../components/common/scroll/Scroll.vue";
+import RightTop from "./childComps/RightTop.vue";
+import TabControl from "../../components/content/TabControl.vue";
+import GoodsList from '../../components/content/goods/GoodsList.vue';
 
-BScroll.use(Pullup);
+import {
+  getCategory,
+  getSubcategory,
+  getSubcategoryDetail,
+} from "@/network/category";
+import { itemListenerMixin, backTopMixin } from "@/common/mixin.js";
 
 export default {
   name: "Classify",
+  components: {
+    NavBar,
+    LeftBar,
+    Scroll,
+    RightTop,
+    TabControl,
+    GoodsList,
+  },
+
   data() {
     return {
-      scroll1: null,
+      cateInfo: [],
+      subInfo: [],
+      goods: {
+        pop: [],
+        new: [],
+        sell: [],
+      },
+      maitKey: null,
+      miniWallkey: null,
+      type: "pop",
     };
   },
+
   mounted() {
-    // probeType: 滚动侦测3为只要滚动就侦测
-    this.scroll1 = new BScroll(this.$refs.wrapper1, {
-      probeType: 3,
-      pullUpLoad: true,
-      click: true,
-    });
+    this.getCategory();
+  },
 
-    this.scroll1.on("scroll", () => {
-      // console.log(position)
-    });
+  mixins: [itemListenerMixin, backTopMixin],
 
-    this.scroll1.on("pullingUp", () => {
-      console.log("上拉加载");
+  computed: {
+    showGoods() {
+      return this.goods[this.type];
+    },
+  },
 
-      this.scroll1.finishPullUp();
-    });
+  methods: {
+    tabClick(index) {
+      switch(index){
+        case 0:
+          this.type = "pop";
+          break;
+        case 1:
+          this.type = "new";
+          break;
+        case 2:
+          this.type = "sell";
+          break;
+      }
+    },
+
+    getCategory() {
+      getCategory().then((res) => {
+        this.cateInfo = res.data.category.list;
+        this.getSubcategory(this.cateInfo[0].maitKey);
+        this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "pop");
+        this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "new");
+        this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "sell");
+        console.log(this.goods)
+        setTimeout(() => {
+          this.$refs.scrollLeft.refresh();
+        }, 100);
+      });
+    },
+
+    getSubcategory(maitKey) {
+      getSubcategory(maitKey).then((res) => {
+        this.subInfo = res.data.list;
+      });
+    },
+
+    getSubcategoryDetail(miniWallkey, type) {
+      getSubcategoryDetail(miniWallkey, type).then((res) => {
+        this.goods[type] = res;
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
-.wrapper {
+#category {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+.nav-bar {
+  background-color: dodgerblue;
+  color: white;
+}
+.left-content {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 44px;
+  bottom: 49px;
   overflow: hidden;
-  width: 100%;
-
-  height: 50vw;
-  background-color: grey;
-  /* overflow: hidden; */
+}
+.right-content {
+  width: 80vw;
+  position: absolute;
+  left: 20vw;
+  top: 44px;
+  bottom: 49px;
+  overflow: hidden;
 }
 </style>
