@@ -5,7 +5,7 @@
     </nav-bar>
 
     <scroll class="left-content" ref="scrollLeft">
-      <left-bar :cateInfo="cateInfo"></left-bar>
+      <left-bar :cateInfo="cateInfo" @leftBarClick="leftBarClick"></left-bar>
     </scroll>
 
     <scroll class="right-content" ref="scroll">
@@ -85,6 +85,13 @@ export default {
       }
     },
 
+    leftBarClick(index){
+      this.getSubcategory(this.cateInfo[index].maitKey);
+      this.getSubcategoryDetail(this.cateInfo[index].miniWallkey,"pop");
+      this.getSubcategoryDetail(this.cateInfo[index].miniWallkey,"new");
+      this.getSubcategoryDetail(this.cateInfo[index].miniWallkey,"sell");
+    },
+
     getCategory() {
       getCategory().then((res) => {
         this.cateInfo = res.data.category.list;
@@ -92,7 +99,6 @@ export default {
         this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "pop");
         this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "new");
         this.getSubcategoryDetail(this.cateInfo[0].miniWallkey, "sell");
-        console.log(this.goods)
         setTimeout(() => {
           this.$refs.scrollLeft.refresh();
         }, 100);

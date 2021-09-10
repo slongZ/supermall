@@ -3,7 +3,7 @@
     <img :src="showImage" alt="" @load="imageLoad" />
     <div class="goods-list-item-text">
       <p>{{ goodsItem.title }}</p>
-      <span class="price">{{ goodsItem.price }}</span>
+      <span class="price">￥{{ goodsItem.price }}</span>
       <span class="collect"> ✩{{ goodsItem.cfav }}</span>
     </div>
   </div>
@@ -67,7 +67,7 @@ export default {
   white-space: nowrap;
 }
 .goods-list-item span {
-  padding-left: 3vw;
+  padding-left: 2vw;
   text-align: center;
 }
 .price {

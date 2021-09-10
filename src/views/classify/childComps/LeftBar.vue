@@ -4,7 +4,8 @@
       v-for="(item,index) in cateInfo"
       v-bind:key="index"
       class="title"
-      :class="{choose:isShow}"
+      :class="{choose:index === currentTypeIndex}"
+      @click="barClick(index)"
       >
       <span>{{item.title}}</span>
     </div>
@@ -24,7 +25,13 @@ export default {
   },
   data(){
     return {
-      isShow: false
+      currentTypeIndex: 0
+    }
+  },
+  methods:{
+    barClick(index){
+      this.currentTypeIndex = index;
+      this.$emit('leftBarClick', index)
     }
   }
 }
